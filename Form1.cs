@@ -1,4 +1,5 @@
-﻿using NPOI.SS.UserModel;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.ComponentModel;
@@ -33,6 +34,8 @@ namespace GestionDroits
         int row_count = 0;
         IWorkbook workbook;
         ISheet sheet1;
+        XSSFCellStyle red;
+        XSSFCellStyle green;
 
         public Form1()
         {
@@ -71,6 +74,14 @@ namespace GestionDroits
                 workbook = new XSSFWorkbook();
                 sheet1 = workbook.CreateSheet(DateTime.Now.Year.ToString());
             }
+
+            red = (XSSFCellStyle)workbook.CreateCellStyle();
+            red.FillForegroundColor = IndexedColors.Red.Index;
+            red.FillPattern = FillPattern.SolidForeground;
+
+            green = (XSSFCellStyle)workbook.CreateCellStyle();
+            green.FillForegroundColor = IndexedColors.Green.Index;
+            green.FillPattern = FillPattern.SolidForeground;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -119,7 +130,9 @@ namespace GestionDroits
                 group.Save();
                 IRow row = sheet1.CreateRow(row_count);
                 row.CreateCell(0).SetCellValue(userPrincipal.Split('=')[1].Split(',')[0]);
-                row.CreateCell(1).SetCellValue("Ajout");
+                ICell cell = row.CreateCell(1);
+                cell.SetCellValue("Ajout");
+                cell.CellStyle = green;
                 row.CreateCell(2).SetCellValue(groupName);
                 row.CreateCell(3).SetCellValue(userName);
                 row_count++;
@@ -154,7 +167,9 @@ namespace GestionDroits
                 group.Save();
                 IRow row = sheet1.CreateRow(row_count);
                 row.CreateCell(0).SetCellValue(userPrincipal.Split('=')[1].Split(',')[0]);
-                row.CreateCell(1).SetCellValue("Suppression");
+                ICell cell = row.CreateCell(1);
+                cell.SetCellValue("Suppression");
+                cell.CellStyle = red;
                 row.CreateCell(2).SetCellValue(groupName);
                 row.CreateCell(3).SetCellValue(dataMembers.SelectedCells[0].Value.ToString());
                 row_count++;
