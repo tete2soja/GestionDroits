@@ -31,11 +31,15 @@ namespace GestionDroits
 
         private Form2 form2;
 
-        int row_count = 0;
+        // Classeur Excel
         IWorkbook workbook;
+        // Feuille courante
         ISheet sheet1;
+        // Coleur pour les cellules
         XSSFCellStyle red;
         XSSFCellStyle green;
+        // Nombre de lignes déjà remplies
+        int row_count = 0;
 
         public Form1()
         {
@@ -58,27 +62,37 @@ namespace GestionDroits
                 this.listBox1.Items.Add(item);
             }
 
+            // ----------------------------------------------------------------
             // Excel
+
+            // Si le fichier existe déjà
             if (File.Exists(ConfigurationManager.AppSettings.Get("pathLog")))
             {
+                // Ouverture du fichier en lecture/écriture
                 workbook = new XSSFWorkbook(new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Open, FileAccess.ReadWrite));
                 sheet1 = workbook.GetSheetAt(workbook.ActiveSheetIndex);
+                // Si la feuille courante n'est pas égale à l'année en cours
                 if (!(sheet1.SheetName.Equals(DateTime.Now.Year.ToString())))
                 {
                     sheet1 = workbook.CreateSheet(DateTime.Now.Year.ToString());
                 }
+
+                // Le compte démarre à 0
                 row_count = sheet1.LastRowNum + 1;
             }
             else
             {
+                // Création d'un nouveau classeur
                 workbook = new XSSFWorkbook();
+                // Création d'une feuille avec l'année courante pour nom
                 sheet1 = workbook.CreateSheet(DateTime.Now.Year.ToString());
             }
 
+            // Création de la couleur rouge
             red = (XSSFCellStyle)workbook.CreateCellStyle();
             red.FillForegroundColor = IndexedColors.Red.Index;
             red.FillPattern = FillPattern.SolidForeground;
-
+            // Création de la couleur verte
             green = (XSSFCellStyle)workbook.CreateCellStyle();
             green.FillForegroundColor = IndexedColors.Green.Index;
             green.FillPattern = FillPattern.SolidForeground;
@@ -128,6 +142,8 @@ namespace GestionDroits
                 UserPrincipal oUserPrincipal = UserPrincipal.FindByIdentity(context, userName);
                 group.Members.Add(oUserPrincipal);
                 group.Save();
+
+                // Insertion d'une nouvelle ligne
                 IRow row = sheet1.CreateRow(row_count);
                 row.CreateCell(0).SetCellValue(userPrincipal.Split('=')[1].Split(',')[0]);
                 ICell cell = row.CreateCell(1);
@@ -136,6 +152,7 @@ namespace GestionDroits
                 row.CreateCell(2).SetCellValue(groupName);
                 row.CreateCell(3).SetCellValue(userName);
                 row_count++;
+
                 MessageBox.Show("L'utilisateur " + userName + " ajouté avec succès !",
                     "Ajout", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 this.getMembers();
@@ -165,6 +182,8 @@ namespace GestionDroits
                 UserPrincipal oUserPrincipal = UserPrincipal.FindByIdentity(context, dataMembers.SelectedCells[0].Value.ToString());
                 group.Members.Remove(oUserPrincipal);
                 group.Save();
+
+                // Insertion d'une nouvelle ligne
                 IRow row = sheet1.CreateRow(row_count);
                 row.CreateCell(0).SetCellValue(userPrincipal.Split('=')[1].Split(',')[0]);
                 ICell cell = row.CreateCell(1);
@@ -173,6 +192,7 @@ namespace GestionDroits
                 row.CreateCell(2).SetCellValue(groupName);
                 row.CreateCell(3).SetCellValue(dataMembers.SelectedCells[0].Value.ToString());
                 row_count++;
+
                 MessageBox.Show("L'utilisateur " + dataMembers.SelectedCells[0].Value.ToString() + " supprimé avec succès !",
                     "Suppression", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 this.getMembers();
@@ -270,7 +290,7 @@ namespace GestionDroits
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if ((e.Cancelled) || (e.Error != null))
-                MessageBox.Show("Operation was canceled");
+                MessageBox.Show("L'opération a été annulée");
 
             this.autocomplete.AutoCompleteCustomSource = (AutoCompleteStringCollection)e.Result;
 
@@ -285,9 +305,13 @@ namespace GestionDroits
         }
         // ====================================================================
 
+        /// <summary>
+        /// Permet de retourner l'ensemble des membres d'un groupe sélectionné
+        /// préalablement dans la liste fournie. Le gestionnaire est également
+        /// renseigné si il est présent dans les propriétés du groupe.
+        /// </summary>
         private void getMembers()
         {
-
             try
             {
                 // Indication d'un traitement à l'utilisateur
@@ -373,16 +397,16 @@ namespace GestionDroits
             //form2.MdiParent = this;
             form2.Show();
             //form2.WindowState = FormWindowState.Maximized;
-
         }
 
         /// <summary>
-        /// Sauvegarde le fichier 
+        /// Sauvegarde le fichier Excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //Ecrase le fichier précédent avec l'ajout des nouvelles données
             FileStream sw = new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Create, FileAccess.ReadWrite);
             workbook.Write(sw);
             sw.Close();
