@@ -1,0 +1,19 @@
+version: 0.1.0.{build}
+
+platform: Any CPU
+
+before_build:
+  - nuget restore GestionDroits.sln
+
+build:
+project: GestionDroits.sln
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+notifications:
+
+  # Slack
+  - provider: Slack
+    incoming_webhook: https://hooks.slack.com/services/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
