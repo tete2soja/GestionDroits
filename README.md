@@ -1,14 +1,14 @@
 # Gestion droits
 
-[![Build Status](https://travis-ci.org/Darkitty/kermene.svg?branch=master)](https://travis-ci.org/Darkitty/kermene)
-[![Coverage Status](https://coveralls.io/repos/github/Darkitty/kermene/badge.svg?branch=master)](https://coveralls.io/github/Darkitty/kermene?branch=master)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/Darkitty/GestionDroits)](https://ci.appveyor.com/project/Darkitty/gestiondroits)
+[![Coverage Status](https://coveralls.io/repos/github/Darkitty/GestionDroits/badge.svg?branch=master)](https://coveralls.io/github/Darkitty/kermene?branch=master)
 
 _Langage : ```C#``` - Date : 06/06/2016_
 
 Application permettant la gestion des membres dans les groupes AD. L'ensemble des ```OU``` est défini dans le fichier ```GestionDroits.exe.config``` ainsi que le nom de domaine.
 
 |Key|Value|
-|-|-|
+|---|-----|
 |pathDoc|Chemin absolu du fichier de documentation|
 |domain|Nom du domaine|
 |mailserver|Nom ou IP du serveur de mail|
