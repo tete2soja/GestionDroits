@@ -6,7 +6,7 @@ before_build:
   - nuget restore GestionDroits.sln
 
 build:
-project: GestionDroits.sln
+  project: GestionDroits.sln
 
 #---------------------------------#
 #         notifications           #
