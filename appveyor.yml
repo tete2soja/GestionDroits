@@ -1,5 +1,9 @@
 version: 0.1.0.{build}
 
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: uZr+CJU4Pl/9ySY0sDQh62xBZaqlEQB7s6fZEmG58InhSjbwslq6mKIWxd1Q55TO
+
 platform: Any CPU
 
 before_build:
@@ -7,6 +11,9 @@ before_build:
 
 build:
   project: GestionDroits.sln
+
+after_test:
+  - cmd: .\after_test.cmd
 
 #---------------------------------#
 #         notifications           #
