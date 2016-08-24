@@ -77,8 +77,13 @@ namespace GestionDroits
                     sheet1 = workbook.CreateSheet(DateTime.Now.Year.ToString());
                 }
 
+                IRow cell = sheet1.GetRow(0);
+
                 // Le compte démarre à 0
-                row_count = sheet1.LastRowNum + 1;
+                if (cell != null)
+                {
+                    row_count = sheet1.LastRowNum + 1;
+                }
             }
             else
             {
