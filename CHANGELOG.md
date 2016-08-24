@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.2] - 2016-08-23
+### Correction
+
+ - Choix du classeur actif
+ - Index de la ligne active
+
 ## [1.0.1] - 2016-08-23
 ### Ajout
 
