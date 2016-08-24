@@ -70,7 +70,7 @@ namespace GestionDroits
             {
                 // Ouverture du fichier en lecture/écriture
                 workbook = new XSSFWorkbook(new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Open, FileAccess.ReadWrite));
-                sheet1 = workbook.GetSheetAt(workbook.ActiveSheetIndex);
+                sheet1 = workbook.GetSheetAt(workbook.NumberOfSheets - 1);
                 // Si la feuille courante n'est pas égale à l'année en cours
                 if (!(sheet1.SheetName.Equals(DateTime.Now.Year.ToString())))
                 {
