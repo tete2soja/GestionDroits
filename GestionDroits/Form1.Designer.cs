@@ -42,13 +42,16 @@
             this.sendMail = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.détailsUtilisateurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transfertDePartagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aProposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.transfertDePartagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.groupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataMembers)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox1
@@ -189,6 +192,13 @@
             this.détailsUtilisateurToolStripMenuItem.Visible = false;
             this.détailsUtilisateurToolStripMenuItem.Click += new System.EventHandler(this.détailsUtilisateurToolStripMenuItem_Click);
             // 
+            // transfertDePartagesToolStripMenuItem
+            // 
+            this.transfertDePartagesToolStripMenuItem.Name = "transfertDePartagesToolStripMenuItem";
+            this.transfertDePartagesToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
+            this.transfertDePartagesToolStripMenuItem.Text = "Transfert de partages";
+            this.transfertDePartagesToolStripMenuItem.Click += new System.EventHandler(this.transfertDePartagesToolStripMenuItem_Click);
+            // 
             // aideToolStripMenuItem
             // 
             this.aideToolStripMenuItem.Name = "aideToolStripMenuItem";
@@ -205,20 +215,30 @@
             // 
             // backgroundWorker1
             // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
-            // transfertDePartagesToolStripMenuItem
+            // statusStrip1
             // 
-            this.transfertDePartagesToolStripMenuItem.Name = "transfertDePartagesToolStripMenuItem";
-            this.transfertDePartagesToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
-            this.transfertDePartagesToolStripMenuItem.Text = "Transfert de partages";
-            this.transfertDePartagesToolStripMenuItem.Click += new System.EventHandler(this.transfertDePartagesToolStripMenuItem_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 519);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1104, 22);
+            this.statusStrip1.TabIndex = 16;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1104, 523);
+            this.ClientSize = new System.Drawing.Size(1104, 541);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.sendMail);
             this.Controls.Add(this.responsable);
             this.Controls.Add(this.label1);
@@ -238,6 +258,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataMembers)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,6 +284,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem détailsUtilisateurToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transfertDePartagesToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
     }
 }
 

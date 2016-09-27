@@ -9,6 +9,7 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Net.Mail;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GestionDroits
@@ -57,6 +58,7 @@ namespace GestionDroits
                 Environment.Exit(-1);
             }
             this.backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;
+            this.backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
             this.backgroundWorker1.RunWorkerAsync();
             foreach (var item in this.data)
             {
@@ -282,8 +284,13 @@ namespace GestionDroits
             UserPrincipal u = new UserPrincipal(context);
             PrincipalSearcher search = new PrincipalSearcher(u);
             AutoCompleteStringCollection dataCompletion = new AutoCompleteStringCollection();
+            int i = 0;
+            var allUsers = search.FindAll();
+            int count = allUsers.Count<Principal>();
             foreach (UserPrincipal result in search.FindAll())
             {
+                backgroundWorker1.ReportProgress((int)(((decimal)i / (decimal)count) * 100));
+                i++;
                 if (result != null && result.DisplayName != null && !result.SamAccountName.ToUpper().Contains("ADM"))
                 {
                     dataCompletion.Add(result.Name);
@@ -291,6 +298,15 @@ namespace GestionDroits
             }
             e.Result = dataCompletion;
             // ----------------------------------------------------------------
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (!backgroundWorker1.CancellationPending)
+            {
+                toolStripProgressBar1.Value = e.ProgressPercentage;
+            }
+
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
