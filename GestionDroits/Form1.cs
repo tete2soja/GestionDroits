@@ -287,8 +287,9 @@ namespace GestionDroits
             int i = 0;
             var allUsers = search.FindAll();
             int count = allUsers.Count<Principal>();
-            foreach (UserPrincipal result in search.FindAll())
+            foreach (UserPrincipal result in allUsers)
             {
+                // Repport progression
                 backgroundWorker1.ReportProgress((int)(((decimal)i / (decimal)count) * 100));
                 i++;
                 if (result != null && result.DisplayName != null && !result.SamAccountName.ToUpper().Contains("ADM"))
