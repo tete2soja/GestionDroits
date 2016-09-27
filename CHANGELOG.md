@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.1] - 2016-09-27
+## [1.1.0] - 2016-09-27
 ### Ajout
 
  - Envoie de demande sur l'ensemble des partages d'un utilisateur
