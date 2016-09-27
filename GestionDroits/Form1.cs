@@ -2,6 +2,7 @@
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.DirectoryServices;
@@ -241,8 +242,8 @@ namespace GestionDroits
             }
 
             // Création du mail
-            MailMessage mail = new MailMessage(ConfigurationManager.AppSettings.Get("mail"), this.mail);
-            mail.CC.Add(user.EmailAddress);
+            MailMessage mail = new MailMessage(ConfigurationManager.AppSettings.Get("mail"), user.EmailAddress);
+            //mail.CC.Add(this.mail);
             SmtpClient client = new SmtpClient();
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -415,6 +416,63 @@ namespace GestionDroits
             FileStream sw = new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Create, FileAccess.ReadWrite);
             workbook.Write(sw);
             sw.Close();
+        }
+
+        private void transfertDePartagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form3 input = new Form3(this.autocomplete.AutoCompleteCustomSource);
+            DialogResult result = input.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string val = input.user;
+                string list = "";
+                List<string[]> groups = new List<string[]>();
+
+                // Définition du contexte de recherche
+                PrincipalContext yourOU = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings.Get("domain"),
+                    ConfigurationManager.AppSettings.Get("Partages"));
+                // On demande l'ensemble des groupes
+                GroupPrincipal findAllGroups = new GroupPrincipal(yourOU, "*");
+                PrincipalSearcher ps = new PrincipalSearcher(findAllGroups);
+                foreach (var tmp in ps.FindAll())
+                {
+                    GroupPrincipal group = GroupPrincipal.FindByIdentity(yourOU, tmp.Name);
+
+                    Console.WriteLine(group.Name);
+
+                    if (UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, userName).IsMemberOf(group))
+                    {
+                        var tmp2 = (DirectoryEntry)group.GetUnderlyingObject();
+                        var tmp3 = tmp2.Properties["managedBy"].Value;
+
+                        list += group.Name + "\r\n";
+                        string[] prop = new string[2];
+                        prop[0] = group.Name;
+                        prop[1] = tmp3.ToString();
+                        groups.Add(prop);
+                    }
+                }
+                if (MessageBox.Show(list, "Liste des partages", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    foreach(string[] group in groups)
+                    {
+                        UserPrincipal user = UserPrincipal.FindByIdentity(context, group[1]);
+                        MailMessage mail = new MailMessage(ConfigurationManager.AppSettings.Get("mail"), user.EmailAddress);
+                        SmtpClient client = new SmtpClient();
+                        client.Port = 25;
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.UseDefaultCredentials = false;
+                        client.Host = ConfigurationManager.AppSettings.Get("mailserver");
+                        mail.Subject = "[Partage] Demande d'accès : " + group[0];
+                        mail.Body = "L'utilisateur " + val + " demande l'accès au partage " + group[0] +
+                            ". Lancer l'application GestionDroits afin de l'ajouter si vous validez la demande.";
+                        // Envoie du mail aux destinataires
+                        client.Send(mail);
+                    }
+                    MessageBox.Show("L'ensembles des mails ont été envoyés avec succès !",
+                        "Envoyé", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
         }
     }
 }

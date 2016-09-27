@@ -45,6 +45,7 @@
             this.aideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aProposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.transfertDePartagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.groupList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataMembers)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -170,6 +171,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.détailsUtilisateurToolStripMenuItem,
+            this.transfertDePartagesToolStripMenuItem,
             this.aideToolStripMenuItem,
             this.aProposToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -204,6 +206,13 @@
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // transfertDePartagesToolStripMenuItem
+            // 
+            this.transfertDePartagesToolStripMenuItem.Name = "transfertDePartagesToolStripMenuItem";
+            this.transfertDePartagesToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
+            this.transfertDePartagesToolStripMenuItem.Text = "Transfert de partages";
+            this.transfertDePartagesToolStripMenuItem.Click += new System.EventHandler(this.transfertDePartagesToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -252,6 +261,7 @@
         private System.Windows.Forms.ToolStripMenuItem aProposToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem détailsUtilisateurToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transfertDePartagesToolStripMenuItem;
     }
 }
 
