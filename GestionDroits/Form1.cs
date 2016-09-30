@@ -284,7 +284,7 @@ namespace GestionDroits
             UserPrincipal u = new UserPrincipal(context);
             PrincipalSearcher search = new PrincipalSearcher(u);
             AutoCompleteStringCollection dataCompletion = new AutoCompleteStringCollection();
-            int i = 0;
+            int i = 1;
             var allUsers = search.FindAll();
             int count = allUsers.Count<Principal>();
             foreach (UserPrincipal result in allUsers)
