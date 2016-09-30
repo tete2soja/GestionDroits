@@ -253,7 +253,7 @@ namespace GestionDroits
                 from = currentMail;
             }
             MailMessage mail = new MailMessage(from, this.mail);
-            mail.ReplyToList.Add("informatique.kermene@kermene.fr");
+            mail.ReplyToList.Add(ConfigurationManager.AppSettings.Get("replyto"));
             //mail.CC.Add(this.mail);
             SmtpClient client = new SmtpClient();
             client.Port = 25;
