@@ -242,7 +242,18 @@ namespace GestionDroits
             }
 
             // Création du mail
-            MailMessage mail = new MailMessage(ConfigurationManager.AppSettings.Get("mail"), user.EmailAddress);
+            string currentMail = UserPrincipal.FindByIdentity(this.context, IdentityType.SamAccountName, userName).EmailAddress;
+            string from;
+            if (currentMail.Equals(""))
+            {
+                from = ConfigurationManager.AppSettings.Get("mail");
+            }
+            else
+            {
+                from = currentMail;
+            }
+            MailMessage mail = new MailMessage(from, this.mail);
+            mail.ReplyToList.Add("informatique.kermene@kermene.fr");
             //mail.CC.Add(this.mail);
             SmtpClient client = new SmtpClient();
             client.Port = 25;
@@ -251,7 +262,7 @@ namespace GestionDroits
             client.Host = ConfigurationManager.AppSettings.Get("mailserver");
             mail.Subject = "[Partage] Demande d'accès : " + groupList.SelectedCells[0].Value.ToString();
             mail.Body = "L'utilisateur " + this.autocomplete.Text + " demande l'accès au partage " + groupList.SelectedCells[0].Value.ToString() +
-                ". Lancer l'application GestionDroits afin de l'ajouter si vous validez la demande.";
+                ". Pour valider la demande, lancez l'application GestionDroits ou répondez par l'afffirmative à ce mail.";
             // Envoie du mail aux destinataires
             client.Send(mail);
             MessageBox.Show("Mail envoyé avec succès !",
