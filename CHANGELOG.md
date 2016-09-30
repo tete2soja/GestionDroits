@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.1.1] - 2016-09-30
+### Ajout
+
+ - Champ reply-to dans le mail
+
+## Correction
+
+ - Correction de la barre de progression
+ - Gestion de l'erreur si aucun chemin n'est donné pour le fichier
+ de log
+
 ## [1.1.0] - 2016-09-27
 ### Ajout
 
