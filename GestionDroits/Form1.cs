@@ -1,8 +1,6 @@
-﻿using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
+﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.DirectoryServices;
@@ -390,7 +388,7 @@ namespace GestionDroits
                 Cursor.Current = Cursors.Default;
 
             }
-            catch (System.Exception) { }
+            catch (Exception) { }
         }
 
         public void getListGroup(DataGridViewRowCollection data, string filtre)
@@ -429,10 +427,18 @@ namespace GestionDroits
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Ecrase le fichier précédent avec l'ajout des nouvelles données
-            FileStream sw = new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Create, FileAccess.ReadWrite);
-            workbook.Write(sw);
-            sw.Close();
+            try
+            {
+                //Ecrase le fichier précédent avec l'ajout des nouvelles données
+                FileStream sw = new FileStream(ConfigurationManager.AppSettings.Get("pathLog"), FileMode.Create, FileAccess.ReadWrite);
+                workbook.Write(sw);
+                sw.Close();
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Fichier de logs non disponible. Aucune entrée ajoutée",
+                    "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
         }
 
         private void transfertDePartagesToolStripMenuItem_Click(object sender, EventArgs e)
