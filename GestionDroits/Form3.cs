@@ -46,7 +46,7 @@ namespace GestionDroits
                 client.Host = ConfigurationManager.AppSettings.Get("mailserver");
                 mail.Subject = "[Partage] Demande d'accès : " + item.Text;
                 mail.Body = "L'utilisateur " + this.autocomplete.Text + " demande l'accès au partage " + item.Text +
-                    ". Lancer l'application GestionDroits afin de l'ajouter si vous validez la demande.";
+                    ". Pour valider la demande, lancez l'application GestionDroits ou répondez par l'affirmative à ce mail.";
                 // Envoie du mail aux destinataires
                 client.Send(mail);
             }
