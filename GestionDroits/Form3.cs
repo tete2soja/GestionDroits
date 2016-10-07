@@ -29,6 +29,12 @@ namespace GestionDroits
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (listView1.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Cochez au moins une case dans la liste",
+                    "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                return;
+            }
             foreach (ListViewItem item in listView1.CheckedItems)
             {
                 UserPrincipal user = UserPrincipal.FindByIdentity(context, groups[item.Text]);
@@ -46,6 +52,7 @@ namespace GestionDroits
             }
             MessageBox.Show("L'ensembles des mails ont été envoyés avec succès !",
                 "Envoyé", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -73,6 +80,11 @@ namespace GestionDroits
                     groups.Add(group.Name, tmp3.ToString());
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
