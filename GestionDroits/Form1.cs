@@ -445,6 +445,11 @@ namespace GestionDroits
                 workbook.Write(sw);
                 sw.Close();
             }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Problème de droits sur le fichier de log.",
+                    "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
             catch (ArgumentException)
             {
                 MessageBox.Show("Fichier de logs non disponible. Aucune entrée ajoutée",

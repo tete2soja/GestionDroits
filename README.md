@@ -18,7 +18,7 @@ Application permettant la gestion des membres dans les groupes AD. L'ensemble de
 
 ## Gestion des membres
 
-![](https://lut.im/05HdNMI6YX/qBKArOmsDuyc4Tud)
+![](https://img.nlegall.fr/Q6gtg29S)
 
 Pour chaque OU sélectionée dans la liste, l'ensemble des groupes sera ensuite affiché en dessous. Il y aura alors plusieurs cas possible :
 
@@ -28,6 +28,12 @@ Pour chaque OU sélectionée dans la liste, l'ensemble des groupes sera ensuite 
 
 ## Détails sur un utilisateur
 
-![](https://lut.im/262LU9sG6y/s7pCqIArIGMzJqAc)
+![](https://img.nlegall.fr/2zgXZHQs)
 
 Cette fenêtre permet d'afficher un ensemble d'information ainsi que l'ensemble des groupes dont l'utilisateur sélectionné est membre. Aucune modification n'est cependant possible.
+
+## Transfert de partages
+
+![](https://img.nlegall.fr/opfrgmNs)
+
+Cette option permet de faire une demande grouper pour transfert les partages d'un utilisateur à un autre. Chaque partage peut être sélectionner via une case à cocher.
