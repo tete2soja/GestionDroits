@@ -226,6 +226,7 @@ namespace GestionDroits
                     "Erreur lors de l'envoie du mail", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                 return;
             }
+
             UserPrincipal user = UserPrincipal.FindByIdentity(context, autocomplete.Text);
 
             if (user == null)
@@ -242,16 +243,14 @@ namespace GestionDroits
             }
 
             // Création du mail
-            string currentMail = UserPrincipal.FindByIdentity(this.context, IdentityType.SamAccountName, userName).EmailAddress;
-            string from;
-            if (currentMail.Equals(""))
+            string complement = Microsoft.VisualBasic.Interaction.InputBox("Ajouter un message en plus du mail si vous souhaiter .", "Message", "");
+            string from = UserPrincipal.FindByIdentity(this.context, IdentityType.SamAccountName, userName).EmailAddress;
+            if (from.Equals(""))
             {
+                // Utilisation du mail par défaut
                 from = ConfigurationManager.AppSettings.Get("mail");
             }
-            else
-            {
-                from = currentMail;
-            }
+
             MailMessage mail = new MailMessage(from, this.mail);
             mail.ReplyToList.Add(ConfigurationManager.AppSettings.Get("replyto"));
             //mail.CC.Add(this.mail);
@@ -261,9 +260,9 @@ namespace GestionDroits
             client.UseDefaultCredentials = false;
             client.Host = ConfigurationManager.AppSettings.Get("mailserver");
             mail.Subject = "[Partage] Demande d'accès : " + groupList.SelectedCells[0].Value.ToString();
-            mail.Body = "L'utilisateur " + this.autocomplete.Text + " demande l'accès au partage " + groupList.SelectedCells[0].Value.ToString() +
+            mail.Body = "L'utilisateur " + this.autocomplete.Text + " (" + complement + ") demande l'accès au partage " + groupList.SelectedCells[0].Value.ToString() +
                 ". Pour valider la demande, lancez l'application GestionDroits ou répondez par l'affirmative à ce mail.";
-            // Envoie du mail aux destinataires
+            // Envoie du mail au destinataire
             client.Send(mail);
             MessageBox.Show("Mail envoyé avec succès !",
                 "Envoyé", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -298,7 +297,7 @@ namespace GestionDroits
             int count = allUsers.Count<Principal>();
             foreach (UserPrincipal result in allUsers)
             {
-                // Repport progression
+                // Bar de progresssion
                 backgroundWorker1.ReportProgress((int)(((decimal)i / (decimal)count) * 100));
                 i++;
                 if (result != null && result.DisplayName != null && !result.SamAccountName.ToUpper().Contains("ADM"))
@@ -326,6 +325,7 @@ namespace GestionDroits
 
             this.autocomplete.AutoCompleteCustomSource = (AutoCompleteStringCollection)e.Result;
 
+            // Ajout du menu si l'utilisateur est membre du groupe "utilisateurs gestionDroits VIP"
             PrincipalContext yourOU = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings.Get("domain"),
                 ConfigurationManager.AppSettings.Get(listBox1.Text));
             GroupPrincipal group = GroupPrincipal.FindByIdentity(context, "utilisateurs gestionDroits VIP");
